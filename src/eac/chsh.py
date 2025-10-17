@@ -7,7 +7,8 @@ from typing import Tuple
 
 import numpy as np
 
-from .measure import sample_outcome
+from .measure import observable, sample_outcome
+from .states import as_density_matrix
 
 
 Angles = Tuple[Tuple[float, float], Tuple[float, float]]
@@ -37,6 +38,20 @@ def correlation(
     return CorrelationResult(value=float(outcomes.mean()), shots=shots)
 
 
+def correlation_exact(
+    state,
+    theta_a: float,
+    theta_b: float,
+) -> CorrelationResult:
+    """Exact expectation value ⟨A B⟩ without sampling."""
+    rho = as_density_matrix(state)
+    a_op = observable(theta_a)
+    b_op = observable(theta_b)
+    op = np.kron(a_op, b_op)
+    value = float(np.real(np.trace(op @ rho)))
+    return CorrelationResult(value=value, shots=0)
+
+
 def chsh_value(
     state,
     angles: Angles,
@@ -59,6 +74,25 @@ def chsh_value(
         - corr_apbp.value
     )
     return CorrelationResult(value=float(value), shots=4 * shots)
+
+
+def chsh_exact(
+    state,
+    angles: Angles,
+) -> CorrelationResult:
+    """Exact CHSH value using analytic expectation values."""
+    (a, a_prime), (b, b_prime) = angles
+    corr_ab = correlation_exact(state, a, b)
+    corr_abp = correlation_exact(state, a, b_prime)
+    corr_apb = correlation_exact(state, a_prime, b)
+    corr_apbp = correlation_exact(state, a_prime, b_prime)
+    value = (
+        corr_ab.value
+        + corr_abp.value
+        + corr_apb.value
+        - corr_apbp.value
+    )
+    return CorrelationResult(value=float(value), shots=0)
 
 
 def _marginal_probability(

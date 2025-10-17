@@ -26,6 +26,12 @@ def projector(theta: float) -> Tuple[np.ndarray, np.ndarray]:
     return p_plus, p_minus
 
 
+def observable(theta: float) -> np.ndarray:
+    """Return the ±1-valued observable associated with projector(theta)."""
+    p_plus, p_minus = projector(theta)
+    return p_plus - p_minus
+
+
 def _to_density(state) -> np.ndarray:
     if qutip is not None and isinstance(state, qutip.Qobj):  # pragma: no cover - optional dependency
         return as_density_matrix(np.asarray(state.full(), dtype=np.complex128))

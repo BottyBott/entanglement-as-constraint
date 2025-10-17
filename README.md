@@ -41,3 +41,5 @@ My thesis (not included) argues that science should privilege present constraint
 - Correlations express a **global constraint**. Alter the constraint—by shifting angles or adding noise—and the behaviour changes immediately.
 
 Each module grounds a point from the thesis: states define the shared constraint, measurement modules enforce contextuality, CHSH utilities track probability-first claims, and the simulator streams running statistics so the discussion stays anchored in live data.
+
+See `docs/glossary.md` for quick definitions of the terms used across the code, notebooks, and examples.

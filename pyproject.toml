@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "entanglement-as-constraint"
+version = "0.1.0"
+description = "Present-centered entanglement simulations that stress contextual measurements and constraint-first reasoning."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.24"]
+[project.optional-dependencies]
+qutip = ["qutip>=4.7"]
+notebooks = [
+  "matplotlib>=3.8",
+  "notebook>=7.2",
+]
+authors = [
+  { name = "Systems Science Lab" }
+]
+license = { text = "MIT" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License"
+]
+
+[project.urls]
+Homepage = "https://example.com/entanglement-as-constraint"
+
+[tool.setuptools.packages.find]
+where = ["src"]
